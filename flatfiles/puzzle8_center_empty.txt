@@ -1,6 +1,6 @@
 """
 For a game with 8 tiles of blocks on a 3x3 grid,
-write down the Facts and Rules to model the game state 
+write down the Facts and Rules to model the game state
 shown as the follows:
 
  y\\x   pos1     pos2     pos3
@@ -12,8 +12,48 @@ pos2 | tile8  | empty  | tile4  |
 pos3 | tile7  | tile6  | tile5  |
      ----------------------------
 
-Example: 
+Example:
 fact: (pred obj1 obj2)
 rule: ((pred obj1 obj2) (pred obj2 obj3)) -> (pred obj1 obj3)
 
 """
+fact: (inst tile1 Tile)
+fact: (inst tile2 Tile)
+fact: (inst tile3 Tile)
+fact: (inst tile4 Tile)
+fact: (inst tile5 Tile)
+fact: (inst tile6 Tile)
+fact: (inst tile7 Tile)
+fact: (inst tile8 Tile)
+fact: (inst ?empty Empty)
+
+
+fact: (posxy tile1 pos1 pos1)
+fact: (posxy tile2 pos2 pos1)
+fact: (posxy tile3 pos3 pos1)
+fact: (posxy tile4 pos3 pos2)
+fact: (posxy tile5 pos3 pos3)
+fact: (posxy tile6 pos2 pos3)
+fact: (posxy tile7 pos1 pos3)
+fact: (posxy tile8 pos1 pos2)
+fact: (posxy pos2 pos2)
+
+fact: (adjacent pos1 pos1 pos2 pos1)
+fact: (adjacent pos1 pos1 pos1 pos2)
+fact: (adjacent pos2 pos1 pos3 pos1)
+fact: (adjacent pos2 pos1 pos2 pos2)
+fact: (adjacent pos3 pos1 pos3 pos2)
+fact: (adjacent pos1 pos2 pos2 pos2)
+fact: (adjacent pos1 pos2 pos1 pos3)
+fact: (adjacent pos2 pos2 pos2 pos3)
+fact: (adjacent pos2 pos2 pos3 pos2)
+fact: (adjacent pos3 pos2 pos3 pos3)
+fact: (adjacent pos1 pos3 pos2 pos3)
+fact: (adjacent pos2 pos3 pos3 pos3)
+
+rule: ((adjacent ?posx1 ?posy1 ?posx2 ?posy2)) -> (adjacent ?posx2 ?posy2 ?posx1 ?posy1)
+
+
+rule: ((inst ?empty Empty) (posxy ?empty ?xe ?ye) (inst ?tile Tile) (posxy ?tile ?xt ?yt) (adjacent ?xt ?yt ?xe ?ye)) -> (movable ?tile ?xt ?yt ?xe ?ye)
+
+
